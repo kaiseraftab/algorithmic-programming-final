@@ -93,7 +93,6 @@ src/main/java/nl/nhlstenden/ap/
     └── MainApp.java           JavaFX user interface
 
 src/main/resources/
-├── movies.csv                 sample dataset (50 records)
 └── movies_large.csv           large dataset (50,000 records)
 ```
 
