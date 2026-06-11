@@ -220,7 +220,7 @@ public class MainApp extends Application {
             linkedList.clear();
             hashMap.clear();
             bst.clear();
-            workingList.clear();
+            workingList = new CustomArrayList<>();
 
             int maxRecords = Integer.MAX_VALUE;
             String subsetText = subsetField.getText().trim();
@@ -252,32 +252,38 @@ public class MainApp extends Application {
 
         String selected = dataStructureCombo.getValue();
         AlgorithmTimer timer = new AlgorithmTimer();
-        workingList.clear();
 
         timer.start();
 
         switch (selected) {
             case "LinkedList":
-                for (DataRecord record : linkedList) {
-                    workingList.add(record);
-                }
+                // The sort/search algorithms are generic over CustomList, and
+                // CustomLinkedList implements it, so they run directly on the
+                // linked list itself rather than on a copied buffer.
+                workingList = linkedList;
                 break;
 
             case "HashMap":
+                // A HashMap is not index-addressable, so its values are
+                // flattened into an array-backed list for the algorithms.
                 hashMap.clear();
                 for (DataRecord record : linkedList) {
                     hashMap.put(record.getId(), record);
                 }
+                workingList = new CustomArrayList<>();
                 for (DataRecord record : hashMap.values()) {
                     workingList.add(record);
                 }
                 break;
 
             case "BinarySearchTree":
+                // A BST is not index-addressable, so its in-order traversal is
+                // flattened into an array-backed list for the algorithms.
                 bst.clear();
                 for (DataRecord record : linkedList) {
                     bst.insert(record);
                 }
+                workingList = new CustomArrayList<>();
                 for (DataRecord record : bst.inOrder()) {
                     workingList.add(record);
                 }
@@ -287,7 +293,7 @@ public class MainApp extends Application {
         timer.stop();
 
         refreshTable(workingList);
-        String msg = "Converted " + totalRecords + " records to " + selected + " in " + timer.getElapsedFormatted();
+        String msg = "Converted " + totalRecords + " records to " + selected + " in " + timer.getElapsedDetailed();
         statusLabel.setText(msg);
         logResult(msg);
     }
@@ -323,7 +329,7 @@ public class MainApp extends Application {
         String msg = sorter.getName() + " by " + fieldName
                 + " | Data Structure: " + dataStructureCombo.getValue()
                 + " | Records: " + workingList.size()
-                + " | Speed: " + timer.getElapsedFormatted();
+                + " | Speed: " + timer.getElapsedDetailed();
         statusLabel.setText(msg);
         logResult(msg);
     }
@@ -387,7 +393,7 @@ public class MainApp extends Application {
             msg = searcher.getName() + " by " + fieldName + " = '" + searchValue + "'"
                     + " | Data Structure: " + dataStructureCombo.getValue()
                     + " | FOUND at index " + resultIndex + ": " + found
-                    + " | Speed: " + timer.getElapsedFormatted();
+                    + " | Speed: " + timer.getElapsedDetailed();
 
             tableView.getSelectionModel().select(resultIndex);
             tableView.scrollTo(resultIndex);
@@ -395,7 +401,7 @@ public class MainApp extends Application {
             msg = searcher.getName() + " by " + fieldName + " = '" + searchValue + "'"
                     + " | Data Structure: " + dataStructureCombo.getValue()
                     + " | NOT FOUND"
-                    + " | Speed: " + timer.getElapsedFormatted();
+                    + " | Speed: " + timer.getElapsedDetailed();
         }
 
         statusLabel.setText(msg);
