@@ -55,7 +55,7 @@ The main class is `nl.nhlstenden.ap.gui.MainApp`.
 
 ## Using the application
 
-1. Click **Import CSV Dataset** and select a CSV file (e.g. `src/main/resources/movies.csv`).
+1. Click **Import CSV Dataset** and select a CSV file (e.g. `src/main/resources/movies_large.csv`).
    Optionally type a number into **Max records** to load only a subset.
 2. Choose a **Data Structure** and click **Convert to Data Structure**.
 3. Pick a **sorting** algorithm and a field (including the `natural order` option) and click **Sort**.
