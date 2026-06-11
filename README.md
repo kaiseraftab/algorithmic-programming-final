@@ -1,4 +1,4 @@
-# Algorithmic Programming — Final Assignment
+# Algorithmic Programming Final Assignment
 
 A JavaFX desktop application that loads a dataset, converts it into three **self-built**
 generic data structures, and runs hand-written sorting and searching algorithms over them.
